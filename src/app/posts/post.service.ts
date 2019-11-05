@@ -19,13 +19,17 @@ export class PostService {
             title: post.title,
             content: post.content,
             id: post._id
-          }
-        })
+          };
+        });
       }))
       .subscribe((postData) => {
         this.posts = postData;
         this.postsUpdated.next([...this.posts]);
       });
+  }
+
+  getPost(id: string) {
+    return { ...this.posts.find(x => x.id === id) };
   }
 
   getPostsUpdatedListener() {
