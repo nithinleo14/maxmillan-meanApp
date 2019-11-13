@@ -7,7 +7,8 @@ import {
   MatCardModule,
   MatExpansionModule,
   MatButtonModule,
-  MatToolbarModule
+  MatToolbarModule,
+  MatProgressSpinnerModule
 } from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -16,7 +17,7 @@ import { PostCreateComponent } from './posts/post-create/post-create.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from './header/header.component';
 import { PostListComponent } from './posts/post-list/post-list.component';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { PostService } from './posts/post.service';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -30,7 +31,7 @@ import { HttpClientModule } from '@angular/common/http';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     MatFormFieldModule,
     MatInputModule,
@@ -38,7 +39,8 @@ import { HttpClientModule } from '@angular/common/http';
     MatExpansionModule,
     MatButtonModule,
     MatToolbarModule,
-    HttpClientModule
+    HttpClientModule,
+    MatProgressSpinnerModule
   ],
   providers: [PostService],
   bootstrap: [AppComponent]
