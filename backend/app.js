@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -11,11 +12,11 @@ const app = express();
 // mongoose.set('useCreateIndex', true);
 // mongoose.set('useUnifiedTopology', true);
 mongoose.connect('mongodb+srv://leo:A50BhTXa09RvzJNr@meanappcluster-rby5d.mongodb.net/node-angular?retryWrites=true&w=majority', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-    useFindAndModify: false
-  })
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+  useFindAndModify: false
+})
   .then(_ => console.log('Connected to Database!'))
   .catch(error => console.log('Connection Failed!', error))
 
@@ -23,6 +24,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: false
 }));
+app.use("/images", express.static(path.join('backend/images')));
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
