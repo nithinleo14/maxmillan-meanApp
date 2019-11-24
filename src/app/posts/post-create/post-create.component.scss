@@ -3,8 +3,8 @@ mat-card {
 }
 
 
-mat-form-field {
-  display: block;
+mat-form-field,textarea {
+  width: 100%;
 }
 
 

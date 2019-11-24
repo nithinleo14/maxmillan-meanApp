@@ -1,10 +1,12 @@
-import { Component, EventEmitter, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { Post } from '../post.model';
 import { PostService } from '../post.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { mimeType } from './mime-type.validators';
+import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-post-create',
@@ -12,7 +14,7 @@ import { mimeType } from './mime-type.validators';
   styleUrls: ['./post-create.component.scss']
 })
 
-export class PostCreateComponent implements OnInit {
+export class PostCreateComponent implements OnInit, OnDestroy {
 
   enteredContent = '';
   enteredTitle = '';
@@ -22,13 +24,19 @@ export class PostCreateComponent implements OnInit {
   isLoading = false;
   form: FormGroup;
   imagePreview;
+  private authStatusSub: Subscription
 
   constructor(
     public postsService: PostService,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
+    this.authStatusSub = this.authService.getAuthStatusListener()
+      .subscribe(authStatus => {
+        this.isLoading = false;
+      });
     this.form = new FormGroup({
       title: new FormControl(null, { validators: [Validators.required, Validators.minLength(3)] }),
       content: new FormControl(null, { validators: [Validators.required] }),
@@ -42,7 +50,7 @@ export class PostCreateComponent implements OnInit {
         this.postsService.getPost(this.postId)
           .subscribe(postData => {
             this.isLoading = false;
-            this.post = { id: postData._id, title: postData.title, content: postData.content, imagePath: postData.imagePath };
+            this.post = { id: postData._id, title: postData.title, content: postData.content, imagePath: postData.imagePath, creator: postData.creator };
             this.form.setValue({ title: this.post.title, content: this.post.content, image: this.post.imagePath });
           });
       } else {
@@ -54,10 +62,8 @@ export class PostCreateComponent implements OnInit {
 
   onImagePicked(event: Event) {
     const file = (event.target as HTMLInputElement).files[0];
-    console.log(file);
     this.form.patchValue({ image: file });
     this.form.get('image').updateValueAndValidity();
-    console.log(this.form.get('image'));
     const reader = new FileReader();
     reader.onload = () => {
       this.imagePreview = reader.result;
@@ -85,6 +91,8 @@ export class PostCreateComponent implements OnInit {
 
   }
 
-
+  ngOnDestroy() {
+    this.authStatusSub.unsubscribe();
+  }
 
 }

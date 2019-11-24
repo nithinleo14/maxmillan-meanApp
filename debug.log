@@ -1,2 +1,5 @@
 [1120/020354.681:ERROR:crash_report_database_win.cc(428)] unexpected header
 [1120/183716.863:ERROR:crash_report_database_win.cc(428)] unexpected header
+[1121/221052.017:ERROR:process_info.cc(359)] UncheckedAllocate
+[1121/221107.797:WARNING:minidump_to_upload_parameters.cc(67)] duplicate annotation name metrics_client_id, discarding value d1d788adeb5247028b4964705f9e39a5
+[1122/034312.250:WARNING:minidump_to_upload_parameters.cc(67)] duplicate annotation name metrics_client_id, discarding value d1d788adeb5247028b4964705f9e39a5
